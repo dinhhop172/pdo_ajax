@@ -74,3 +74,26 @@ if (isset($_POST['detail_id'])) {
    $row = $db->getUserId($id);
    echo json_encode($row);
 }
+
+
+if (isset($_GET['export']) && $_GET['export'] == 'excel') {
+   header("Content-Type: application/xls");
+   header("Content-Disposition: attachment; filename: users.xls");
+   header("Pragma: no-cache");
+   header("Expires: 0");
+
+   $data = $db->read();
+   echo "<table border='1'>";
+   echo '<tr><th>Id</th><th>First Name</th><th>Last Name</th><th>Email</th><th>Phone</th>';
+
+   foreach ($data as $row) {
+      echo '<tr>
+               <td>' . $row['id'] . '</td>
+               <td>' . $row['first_name'] . '</td>
+               <td>' . $row['last_name'] . '</td>
+               <td>' . $row['email'] . '</td>
+               <td>' . $row['phone'] . '</td>
+            </tr>';
+   }
+   echo '</table>';
+}
